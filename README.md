@@ -110,34 +110,43 @@
         self.brush_size_scale.pack(side=tk.LEFT)  # виджет self.brush_size_scale будет выровнен по левой стороне контейнера
 
       def update_brush_size(self, size):
+      
         """
         Обновление размера кисти.
         :param size: Новый размер кисти в виде строки.
         """
+      
         self.brush_size = int(size)
 
       def create_eraser(self):
+      
         """
         Создаём ластики в виде кисти с цветом полотна для рисования
         """
+      
         self.pen_color = self.canvas['bg']
 
       def create_brush(self):
+      
         """
         Создаём кисть
         Возврат к предыдущему цвету кисти.
         """
+      
         self.pen_color = self.previous_color
 
       def paint(self, event):
+      
         """
         Функция вызывается при движении мыши с нажатой левой кнопкой по холсту. Она рисует линии на холсте Tkinter и
         параллельно на объекте Image из Pillow:
         - event: Событие содержит координаты мыши, которые используются для рисования.
         - Линии рисуются между текущей и последней зафиксированной позициями курсора, что создает непрерывное изображение.
         """
+
         if self.last_x and self.last_y:  # проверка условий, связанных с переменными self.last_x и self.last_y, которые
             хранят координаты последней нарисованной точки
+      
             self.canvas.create_line(self.last_x, self.last_y, event.x, event.y,
                                     width=self.variable.get(), fill=self.pen_color,
                                     capstyle=tk.ROUND, smooth=tk.TRUE)
@@ -149,6 +158,7 @@
             fill — цвет линии (устанавливается с помощью переменной self.pen_color);
             cap style=tk.ROUND — стиль завершения линии (по умолчанию — butt, по умолчанию, если линия не имеет стрелки);
             smooth=tk.TRUE — сглаживает сегменты линии (если значение «true» или «bezier»)
+      
             self.draw.line([self.last_x, self.last_y, event.x, event.y], fill=self.pen_color, width=int(self.variable.get()))
             на изображении будет нарисована линия с заданными параметрами
 
@@ -157,49 +167,71 @@
         Фиксация расположения с сохранением координат события (x и y) для дальнейшего использования в приложении
 
         def reset(self, event):
+      
         """
         Сбрасывает последние координаты кисти. Это необходимо для корректного начала новой линии после того, как
         пользователь отпустил кнопку мыши и снова начал рисовать.
         """
+      
         self.last_x, self.last_y = None, None
 
       def clear_canvas(self):
+      
         """
         Очищает холст, удаляя все нарисованное, и пересоздает объекты Image и ImageDraw для нового изображения.
         """
+      
         self.canvas.delete("all")
+      
         self.image = Image.new("RGB", (1000, 600), "white")
+      
         self.draw = ImageDraw.Draw(self.image)
 
       def choose_color(self):
+      
         """
         Открывает стандартное диалоговое окно выбора цвета и устанавливает выбранный цвет как текущий для кисти.
         """
+      
         new_color = colorchooser.askcolor(color=self.pen_color)[1]  # сохраняем в переменную выбранный пользователем новый цвет кисти
+      
         if new_color:  # если новый цвет кисти выбран
+      
             self.pen_color = new_color  # атрибут цвет кисти равен новому цвету кисти выбранного пользователем
+      
             self.previous_color = self.pen_color  # атрибут предыдущий цвет кисти равен атрибуту цвету кисти
 
       def save_image(self):
+      
         """
         Позволяет пользователю сохранить изображение, используя стандартное диалоговое окно для сохранения файла.
         Поддерживает только формат PNG. В случае успешного сохранения выводится сообщение об успешном сохранении.
         """
+      
         file_path = filedialog.asksaveasfilename(filetypes=[('PNG files', '*.png')])
+      
         if file_path:
+      
             if not file_path.endswith('.png'):
+      
                 file_path += '.png'
+      
             self.image.save(file_path)
+      
             messagebox.showinfo("Информация", "Изображение успешно сохранено!")
 
 
     def main():
+    
     root = tk.Tk()
+    
     app = DrawingApp(root)
+    
     root.mainloop()
 
 
     if __name__ == "__main__":
+    
     main()
 
 ![2025-01-18_08-19-45 Первоначальная работа кисти](https://github.com/user-attachments/assets/58a72011-f7af-4018-9d24-a5b7babb29b5)
