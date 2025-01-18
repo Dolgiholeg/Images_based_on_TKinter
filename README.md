@@ -95,14 +95,23 @@
         brush_button.pack(side=tk.LEFT)
 
         СОЗДАЁМ ВЫПАДАЮЩЕЕ МЕНЮ РАЗМЕРОВ КИСТИ
+      
         sizes = [1, 2, 5, 10]  # создаём список значений размеров кисти
+      
         label = tk.Label(control_frame, text=' Размер кисти:')  # создаём название
+      
         label.pack(side=tk.LEFT)
+      
         self.variable = tk.StringVar()  # задаём тип для исходной переменной размера кисти
+      
         self.variable.set(str(sizes[0]))  # создаём значение размера кисти по умолчанию# размера кисти по умолчанию
+      
         brush_size_menu = tk.OptionMenu(control_frame, self.variable,  *sizes, command=self.update_brush_size)
+      
         создаём выпадающее меню размеров кисти
+      
         brush_size_menu.config(direction='above')  # выпадающий список будет выпадать вверх
+      
         brush_size_menu.pack(side=tk.LEFT)
 
         self.brush_size_scale = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL)  # создаётся виджет
