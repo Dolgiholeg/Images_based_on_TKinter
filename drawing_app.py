@@ -132,7 +132,6 @@ class DrawingApp:
         """
         self.pen_color = "#%02x%02x%02x" % self.image.getpixel((event.x, event.y))
         """
-        TECT
         Определение цвета пикселя в месте клика правой копки мыши с помощью библиотеки PyAutoGUI Python
         # screen = pyautogui.screenshot() - делаем скриншот всего экрана
         # pixel_color = screen.getpixel((event.x, event.y)) - с помощью метода getpixel получаем цвет пикселя  
