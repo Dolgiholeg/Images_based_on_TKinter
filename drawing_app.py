@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import colorchooser, filedialog, messagebox
 from PIL import Image, ImageDraw
+# import pyautogui - ТЕСТ импорт библиотеки PyAutoGUI Python, предназначенная для автоматизации управления мышью и
+# клавиатурой на экране компьютера
 
 
 """
@@ -39,9 +41,9 @@ class DrawingApp:
         self.draw = ImageDraw.Draw(self.image)  # создание объекта для рисования на объекте изображения с использованием
         # библиотеки Pillow, этот объект позволяет добавлять на изображение текст, линии и другие графические элементы
 
-        self.canvas = tk.Canvas(root, width=1000, height=600, bg='white')  # создаётся новый объект прямоугольное полотно с шириной
-        # 600 пикселей, высотой 400 пикселей и белым фоном, это означает, что на созданной области можно будет рисовать
-        # фигуры, создавать текст и размещать изображения
+        self.canvas = tk.Canvas(root, width=1000, height=600, bg='white')  # создаётся новый объект прямоугольное полотно
+        # с шириной 600 пикселей, высотой 400 пикселей и белым фоном, это означает, что на созданной области можно будет
+        # рисовать фигуры, создавать текст и размещать изображения
         self.canvas.pack()  # размещение виджета Canvas, это делается, потому что на следующем шаге будут выполняться
         # вычисления размеров полотна, и до тех пор, пока geometry manager не разместит виджет, у него не будет реальных
         # значений высоты и ширины
@@ -55,7 +57,8 @@ class DrawingApp:
         self.previous_color = None  # атрибут - предыдущий цвет кисти для рисования, изначально не определён
 
         self.canvas.bind('<B1-Motion>', self.paint)  # при движении зажатой левой кнопки мыши будет вызываться метод paint
-        self.canvas.bind('<ButtonRelease-1>', self.reset)  # при освобождении кнопки мыши будет вызываться функция reset.
+        self.canvas.bind('<ButtonRelease-1>', self.reset)  # при освобождении кнопки мыши будет вызываться функция reset
+        self.canvas.bind('<Button-3>', self.pick_color)  # при нажатии правой кнопки мыши будет вызываться функция pick_color
 
     def setup_ui(self):
         """
@@ -121,6 +124,23 @@ class DrawingApp:
         Возврат к предыдущему цвету кисти.
         """
         self.pen_color = self.previous_color
+
+    def pick_color(self, event):
+        """
+        С помощью метода getpixel экземпляра класса Image модуля Pillow определяем значение цвета пикселя в заданной
+        позиции xy, переводим в шестнадцатеричный код цвета и назначаем его для атрибута self.pen_color
+        """
+        self.pen_color = "#%02x%02x%02x" % self.image.getpixel((event.x, event.y))
+        """
+        TECT
+        Определение цвета пикселя в месте клика правой копки мыши с помощью библиотеки PyAutoGUI Python
+        # screen = pyautogui.screenshot() - делаем скриншот всего экрана
+        # pixel_color = screen.getpixel((event.x, event.y)) - с помощью метода getpixel получаем цвет пикселя  
+        # с заданными координатами (event.x, event.y) в виде кортежа (R, G, B), где R, G и B представляют значения 
+        # красного, зелёного и синего цветов соответственно и сохраняем в переменную pixel_color
+        # self.pen_color = "#%02x%02x%02x" % pixel_color - переводим кортеж (R, G, B) - переменная pixel_color в 
+        # шестнадцатеричный код цвета и назначаем его для атрибута self.pen_color
+        """
 
     def paint(self, event):
         """
