@@ -22,6 +22,7 @@ import pyautogui - ТЕСТ импорт библиотеки PyAutoGUI Python, 
 
 
 class DrawingApp:
+
     """
     Инициализация __init__(self, root)
     Конструктор класса принимает один параметр:
