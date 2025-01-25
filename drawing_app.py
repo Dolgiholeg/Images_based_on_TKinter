@@ -58,7 +58,10 @@ class DrawingApp:
 
         self.canvas.bind('<B1-Motion>', self.paint)  # при движении зажатой левой кнопки мыши будет вызываться метод paint
         self.canvas.bind('<ButtonRelease-1>', self.reset)  # при освобождении кнопки мыши будет вызываться функция reset
-        self.canvas.bind('<Button-3>', self.pick_color)  # при нажатии правой кнопки мыши будет вызываться функция pick_color
+        self.canvas.bind('<Button-3>', self.pick_color)  # при нажатии правой кнопки мыши будет вызываться функция pick_color(пипетка)
+        # Горячие клавиши для быстрых действий
+        self.root.bind('<Control-s>', self.save_image)  # при нажатии Ctrl+S функция save_image(сохранить)
+        self.root.bind('<Control-c>', self.choose_color)  # при нажатии Ctrl+C функция choose_color(выбрать цвет кисти)
 
     def setup_ui(self):
         """
@@ -101,6 +104,7 @@ class DrawingApp:
         brush_size_menu.config(direction='above')  # выпадающий список будет выпадать вверх
         brush_size_menu.pack(side=tk.LEFT)
 
+        # СОЗДАЁМ ШКАЛУ ВЫБОРА РАЗМЕРОВ КИСТИ
         # self.brush_size_scale = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL)  # создаётся виджет
         # Scale (шкала) в библиотеке Tkinter
         # self.brush_size_scale.pack(side=tk.LEFT)  # виджет self.brush_size_scale будет выровнен по левой стороне контейнера
@@ -183,7 +187,8 @@ class DrawingApp:
         self.image = Image.new("RGB", (1000, 600), "white")
         self.draw = ImageDraw.Draw(self.image)
 
-    def choose_color(self):
+    def choose_color(self, event=None):  # функция работает от нажатия кнопки "Выбрать цвет" на интерфейсе полотна
+        # и горячей клавиши Ctrl+C
         """
         Открывает стандартное диалоговое окно выбора цвета и устанавливает выбранный цвет как текущий для кисти.
         """
@@ -192,7 +197,8 @@ class DrawingApp:
             self.pen_color = new_color  # атрибут цвет кисти равен новому цвету кисти выбранного пользователем
             self.previous_color = self.pen_color  # атрибут предыдущий цвет кисти равен атрибуту цвету кисти
 
-    def save_image(self):
+    def save_image(self, event=None):  # функция работает от нажатия кнопки "Сохранить" на интерфейсе полотна
+        # и горячей клавиши Ctrl+S
         """
         Позволяет пользователю сохранить изображение, используя стандартное диалоговое окно для сохранения файла.
         Поддерживает только формат PNG. В случае успешного сохранения выводится сообщение об успешном сохранении.
