@@ -94,7 +94,7 @@ class DrawingApp:
         color_button = tk.Button(control_frame, text="Выбрать цвет", command=self.choose_color)
         color_button.pack(side=tk.LEFT)
 
-        # Предварительный просмотр цвета кисти с помощью виджета - tk.Label
+        # ПРЕДВАРИТЕЛЬНЫЙ ПРОСМОТР ЦВЕТА КИСТИ С ПОМОЩЬЮ ВИДЖИТА - tk.Label
         self.color_brush = tk.Label(control_frame, text='Цвет кисти', fg='white', bg='black', width=10)
         # создаём метку color_brush(цвет кисти) с шириной 10px и цветом фона чёрный(black),
         # текстом: Цвет кисти и цветом текста - белый(white)
