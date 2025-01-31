@@ -1,5 +1,5 @@
 # Программа для создания изображений на основе TKinter
-## Задача №4. Реализовать функционал: Горячие клавиши для быстрых действий
+## Задача №5. Реализовать функционал: Предварительный просмотр цвета кисти
 
 import tkinter as tk
 
@@ -59,6 +59,17 @@ class DrawingApp:
         # вычисления размеров полотна, и до тех пор, пока geometry manager не разместит виджет, у него не будет реальных
         # значений высоты и ширины
 
+        """
+        Предварительный просмотр цвета кисти с помощью дополнительного маленького холста (tk.Canvas)
+        self.canvas1 = tk.Canvas(self.canvas, width=100, height=100, bg='black') - создаём дополнительный холст с 
+        размерами: ширина 100px, длина 100px и чёрным фоном
+        self.label1 = self.canvas1.create_text(50, 50, text='Цвет кисти', fill='white') - в полученном дополнительном 
+        холсте создаём надпись: Цвет кисти с координатами начала надписи х=50px, у=50рх и цветом текста - белый. 
+        Сохраняем полученный текст в переменную label1
+        self.canvas.create_window(100, 100, window=self.canvas1) - размещаем созданный дополнительный холст внутри 
+        основного холста с заданными координатами 
+        """
+
         self.setup_ui()  # метод, который используется для инициализации дизайна графического интерфейса
 
         self.last_x, self.last_y = None, None  # переменные last_x и last_y инициализируются значением None,
@@ -102,6 +113,12 @@ class DrawingApp:
 
         color_button = tk.Button(control_frame, text="Выбрать цвет", command=self.choose_color)
         color_button.pack(side=tk.LEFT)
+
+        # Предварительный просмотр цвета кисти с помощью виджета - tk.Label
+        self.color_brush = tk.Label(control_frame, text='Цвет кисти', fg='white', bg='black', width=10)
+        # создаём метку color_brush(цвет кисти) с шириной 10px и цветом фона чёрный(black),
+        # текстом: Цвет кисти и цветом текста - белый(white)
+        self.color_brush.pack(side=tk.LEFT)
 
         save_button = tk.Button(control_frame, text="Сохранить", command=self.save_image)
         save_button.pack(side=tk.LEFT)
@@ -229,10 +246,14 @@ class DrawingApp:
         new_color = colorchooser.askcolor(color=self.pen_color)[1]  # сохраняем в переменную выбранный пользователем новый цвет кисти
       
         if new_color:  # если новый цвет кисти выбран
-      
-            self.pen_color = new_color  # атрибут цвет кисти равен новому цвету кисти выбранного пользователем
-      
+            self.pen_color = new_color  # атрибут цвет кисти равен новому цвету кисти выбранного пользователем 
             self.previous_color = self.pen_color  # атрибут предыдущий цвет кисти равен атрибуту цвету кисти
+            self.color_brush['bg'] = new_color  # при выборе нового цвета фон метки цвет кисти(color_brush) меняется на новый цвет
+            self.color_brush['fg'] = 'black'  # при выборе нового цвета фона метки цвет текста меняем на чёрный
+            # self.canvas1['bg'] = new_color - при выборе нового цвета фон дополнительного маленького холста canvas1
+            # меняется на новый цвет
+            # self.canvas1.itemconfig(self.label1, fill='black') - при изменении фона дополнительного маленького
+            # холста canvas1 цвет текста меняется на чёрный(метод itemconfig)
 
     def save_image(self, event=None):
         # функция работает от нажатия кнопки "Сохранить" на интерфейсе полотна
@@ -268,9 +289,10 @@ class DrawingApp:
     if __name__ == "__main__":
     
     main()
-![Первоначальная работа кисти](https://github.com/user-attachments/assets/042a1e31-3a8c-405a-9400-ce30199f3c05)
-![Работа кисти после клика правой кнопкой мыши](https://github.com/user-attachments/assets/8f0f621f-2c8e-43de-ab8e-c5141969ad68)
-![Работа кисти после нажатия копки Кисть](https://github.com/user-attachments/assets/93206cb2-9133-4236-9ee7-3a7396d7bbb7)
+![2025-01-31_13-25-02](https://github.com/user-attachments/assets/ff78df4b-3c4c-42f5-8c2a-93954cfbbfe8)
+![2025-01-31_13-25-49](https://github.com/user-attachments/assets/7634512e-0d01-4403-8b06-2c02ec86a0c6)
+![2025-01-31_13-26-11 конечный](https://github.com/user-attachments/assets/a8dae4a5-efe0-49c2-b1c2-0335c30f93fa)
+
 
 
 
