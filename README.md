@@ -1,5 +1,5 @@
 # Программа для создания изображений на основе TKinter
-## Задача №3. Реализовать функционал: Пипетка для выбора цвета с холста
+## Задача №4. Реализовать функционал: Горячие клавиши для быстрых действий
 
 import tkinter as tk
 
@@ -76,6 +76,12 @@ class DrawingApp:
         
         self.canvas.bind('<Button-3>', self.pick_color)  # при нажатии правой кнопки мыши будет вызываться функция pick_color
 
+           # Горячие клавиши для быстрых действий
+           
+        self.root.bind('<Control-s>', self.save_image)  # при нажатии Ctrl+S функция save_image(сохранить)
+        
+        self.root.bind('<Control-c>', self.choose_color)  # при нажатии Ctrl+C функция choose_color(выбрать цвет кисти)
+
     def setup_ui(self):
         """
         Этот метод отвечает за создание и расположение виджетов управления:
@@ -116,7 +122,9 @@ class DrawingApp:
         # создаём выпадающее меню размеров кисти
         brush_size_menu.config(direction='above')  # выпадающий список будет выпадать вверх
         brush_size_menu.pack(side=tk.LEFT)
-
+        
+        # СОЗДАЁМ ШКАЛУ ВЫБОРА РАЗМЕРОВ КИСТИ
+        
         # self.brush_size_scale = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL)  # создаётся виджет
         # Scale (шкала) в библиотеке Tkinter
         # self.brush_size_scale.pack(side=tk.LEFT)  # виджет self.brush_size_scale будет выровнен по левой стороне контейнера
@@ -210,7 +218,9 @@ class DrawingApp:
       
         self.draw = ImageDraw.Draw(self.image)
 
-      def choose_color(self):
+    def choose_color(self, event=None):  
+        # функция работает от нажатия кнопки "Выбрать цвет" на интерфейсе полотна
+        # и горячей клавиши Ctrl+C
       
         """
         Открывает стандартное диалоговое окно выбора цвета и устанавливает выбранный цвет как текущий для кисти.
@@ -224,7 +234,9 @@ class DrawingApp:
       
             self.previous_color = self.pen_color  # атрибут предыдущий цвет кисти равен атрибуту цвету кисти
 
-      def save_image(self):
+    def save_image(self, event=None):
+        # функция работает от нажатия кнопки "Сохранить" на интерфейсе полотна
+        # и горячей клавиши Ctrl+S
       
         """
         Позволяет пользователю сохранить изображение, используя стандартное диалоговое окно для сохранения файла.
