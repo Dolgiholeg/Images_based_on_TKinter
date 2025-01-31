@@ -47,6 +47,16 @@ class DrawingApp:
         self.canvas.pack()  # размещение виджета Canvas, это делается, потому что на следующем шаге будут выполняться
         # вычисления размеров полотна, и до тех пор, пока geometry manager не разместит виджет, у него не будет реальных
         # значений высоты и ширины
+        """
+        Предварительный просмотр цвета кисти с помощью дополнительного маленького холста (tk.Canvas)
+        self.canvas1 = tk.Canvas(self.canvas, width=100, height=100, bg='black') - создаём дополнительный холст с 
+        размерами: ширина 100px, длина 100px и чёрным фоном
+        self.label1 = self.canvas1.create_text(50, 50, text='Цвет кисти', fill='white') - в полученном дополнительном 
+        холсте создаём надпись: Цвет кисти с координатами начала надписи х=50px, у=50рх и цветом текста - белый. 
+        Сохраняем полученный текст в переменную label1
+        self.canvas.create_window(100, 100, window=self.canvas1) - размещаем созданный дополнительный холст внутри 
+        основного холста с заданными координатами 
+        """
 
         self.setup_ui()  # метод, который используется для инициализации дизайна графического интерфейса
 
@@ -83,6 +93,12 @@ class DrawingApp:
 
         color_button = tk.Button(control_frame, text="Выбрать цвет", command=self.choose_color)
         color_button.pack(side=tk.LEFT)
+
+        # Предварительный просмотр цвета кисти с помощью виджета - tk.Label
+        self.color_brush = tk.Label(control_frame, text='Цвет кисти', fg='white', bg='black', width=10)
+        # создаём метку color_brush(цвет кисти) с шириной 10px и цветом фона чёрный(black),
+        # текстом: Цвет кисти и цветом текста - белый(white)
+        self.color_brush.pack(side=tk.LEFT)
 
         save_button = tk.Button(control_frame, text="Сохранить", command=self.save_image)
         save_button.pack(side=tk.LEFT)
@@ -187,7 +203,8 @@ class DrawingApp:
         self.image = Image.new("RGB", (1000, 600), "white")
         self.draw = ImageDraw.Draw(self.image)
 
-    def choose_color(self, event=None):  # функция работает от нажатия кнопки "Выбрать цвет" на интерфейсе полотна
+    def choose_color(self, event=None):
+        # функция работает от нажатия кнопки "Выбрать цвет" на интерфейсе полотна
         # и горячей клавиши Ctrl+C
         """
         Открывает стандартное диалоговое окно выбора цвета и устанавливает выбранный цвет как текущий для кисти.
@@ -196,8 +213,15 @@ class DrawingApp:
         if new_color:  # если новый цвет кисти выбран
             self.pen_color = new_color  # атрибут цвет кисти равен новому цвету кисти выбранного пользователем
             self.previous_color = self.pen_color  # атрибут предыдущий цвет кисти равен атрибуту цвету кисти
+            self.color_brush['bg'] = new_color  # при выборе нового цвета фон метки цвет кисти(color_brush) меняется на новый цвет
+            self.color_brush['fg'] = 'black'  # при выборе нового цвета фона метки цвет текста меняем на чёрный
+            # self.canvas1['bg'] = new_color - при выборе нового цвета фон дополнительного маленького холста canvas1
+            # меняется на новый цвет
+            # self.canvas1.itemconfig(self.label1, fill='black') - при изменении фона дополнительного маленького
+            # холста canvas1 цвет текста меняется на чёрный(метод itemconfig)
 
-    def save_image(self, event=None):  # функция работает от нажатия кнопки "Сохранить" на интерфейсе полотна
+    def save_image(self, event=None):
+        # функция работает от нажатия кнопки "Сохранить" на интерфейсе полотна
         # и горячей клавиши Ctrl+S
         """
         Позволяет пользователю сохранить изображение, используя стандартное диалоговое окно для сохранения файла.
