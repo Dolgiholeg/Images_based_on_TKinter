@@ -218,7 +218,7 @@ class DrawingApp:
             # self.canvas1['bg'] = new_color - при выборе нового цвета фон дополнительного маленького холста canvas1
             # меняется на новый цвет
             # self.canvas1.itemconfig(self.label1, fill='black') - при изменении фона дополнительного маленького
-            # холста canvas1 цвет текста меняется на чёрный(метод itemconfig)
+            # холста canvas1, цвет текста меняется на чёрный(метод itemconfig)
 
     def save_image(self, event=None):
         # функция работает от нажатия кнопки "Сохранить" на интерфейсе полотна
